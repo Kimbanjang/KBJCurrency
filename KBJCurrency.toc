@@ -1,0 +1,8 @@
+## Interface: 70000
+## Title: KBJ Currency
+## Version: 1.0
+## Author: Kimbanjang
+## Notes: Create Widget - Money and Emblems
+## SavedVariables: KBJCurrencyDB
+
+KBJCurrency.lua
