@@ -1,13 +1,59 @@
 -- Config
-local position_REF = "TOPRIGHT"
+local position_REF = 'TOPRIGHT'
 local position_X = -46
 local position_Y = -21
+local position_Align = 'RIGHT'
+-- /Config
 
--- Core
 local playerRealm = GetRealmName()
 local playerFaction = select(1, UnitFactionGroup('player'))
 local playerName = UnitName('player')
-local _, playerClass = UnitClass('player')
+local playerClass = select(2, UnitClass('player'))
+
+-- Funtion ----------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+local KBJCurrencyEmblems_Format = function(currencyID)
+	local _, amount, icon = GetCurrencyInfo(currencyID)
+	
+	if amount > 0 then
+		local CURRENCY_TEXTURE = "%s\124T"..icon..":%d:%d:2:0\124t"
+		return format(CURRENCY_TEXTURE.." ", BreakUpLargeNumbers(amount), 0, 0)
+	else
+		return ""
+	end
+end
+
+local KBJCurrencyEmblems_Update = function()
+	local name, currencyID
+	local currencystr
+	for i=1, MAX_WATCHED_TOKENS do
+		name, _, _, currencyID = GetBackpackCurrencyInfo(i)
+		if name then
+			if currencystr then
+				currencystr = currencystr..KBJCurrencyEmblems_Format(currencyID).." "
+			else
+				currencystr = KBJCurrencyEmblems_Format(currencyID).." "
+			end
+		end
+	end
+	return currencystr
+end
+
+function KBJCurrencyEmblems()
+	local currencystr = KBJCurrencyEmblems_Update()
+
+	if currencystr then 
+		currencystr = "|cFFFFFFFF"..currencystr
+	else
+		currencystr = ""
+	end
+
+	return currencystr
+end
+
+function KBJCurrencyMoney()
+	return GetCoinTextureString(GetMoney(), 0)
+end
 
 function KBJCurrencySave()
 	if KBJCurrencyDB == nil then KBJCurrencyDB = { } end
@@ -29,22 +75,6 @@ function KBJCurrencySave()
 			currencyDB[#currencyDB+1] = { playerName, playerClass, GetMoney() }
 		end
 	end
-end
-
-function KBJCurrencyEmblems()
-	local currencystr = KBJCurrencyEmblems_Update()
-
-	if currencystr then 
-		currencystr = "|cFFFFFFFF"..currencystr
-	else
-		currencystr = ""
-	end
-
-	return currencystr
-end
-
-function KBJCurrencyMoney()
-	return GetCoinTextureString(GetMoney(), 0)
 end
 
 function KBJCurrencyTooltip(self)
@@ -72,33 +102,8 @@ function KBJCurrencyTooltip(self)
 	GameTooltip:Show()
 end
 
-function KBJCurrencyEmblems_Format(currencyID)
-	local _, amount, icon = GetCurrencyInfo(currencyID)
-	
-	if amount > 0 then
-		local CURRENCY_TEXTURE = "%s\124T"..icon..":%d:%d:2:0\124t"
-		return format(CURRENCY_TEXTURE.." ", BreakUpLargeNumbers(amount), 0, 0)
-	else
-		return ""
-	end
-end
-
-function KBJCurrencyEmblems_Update()
-	local name, currencyID
-	local currencystr
-	for i=1, MAX_WATCHED_TOKENS do
-		name, _, _, currencyID = GetBackpackCurrencyInfo(i)
-		if name then
-			if currencystr then
-				currencystr = currencystr..KBJCurrencyEmblems_Format(currencyID).." "
-			else
-				currencystr = KBJCurrencyEmblems_Format(currencyID).." "
-			end
-		end
-	end
-	return currencystr
-end
-
+-- Core -------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
 local mainFrame = CreateFrame('frame', 'KBJCurrency', UIParent)
 mainFrame:RegisterEvent('PLAYER_ENTERING_WORLD')
 -- Emblems Event
@@ -115,11 +120,11 @@ mainFrame:SetHeight(15)
 mainFrame:SetPoint(position_REF, UIParent, position_REF, position_X, position_Y)
 
 local currencyFrame = mainFrame:CreateFontString(nil, 'OVERLAY')
-currencyFrame:SetPoint('RIGHT', mainFrame, 'RIGHT', 0, 0)
+currencyFrame:SetPoint(position_Align, mainFrame, position_Align, 0, 0)
 currencyFrame:SetFont(STANDARD_TEXT_FONT, 12, nil)
 currencyFrame:SetShadowOffset(1, -1)
 currencyFrame:SetTextColor(1, 1, 1)
-currencyFrame:SetPoint('CENTER')
+--currencyFrame:SetPoint('CENTER')
 
 function KBJCurrencyOnEvent(self, event, ...)
 	local emblems = KBJCurrencyEmblems()
