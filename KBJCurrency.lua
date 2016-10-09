@@ -3,6 +3,7 @@ local position_REF = 'TOPRIGHT'
 local position_X = -46
 local position_Y = -21
 local position_Align = 'RIGHT'
+local font = 'Fonts\\FRIZQT__.ttf'
 -- /Config
 
 local playerRealm = GetRealmName()
@@ -121,7 +122,7 @@ mainFrame:SetPoint(position_REF, UIParent, position_REF, position_X, position_Y)
 
 local currencyFrame = mainFrame:CreateFontString(nil, 'OVERLAY')
 currencyFrame:SetPoint(position_Align, mainFrame, position_Align, 0, 0)
-currencyFrame:SetFont(STANDARD_TEXT_FONT, 12, nil)
+currencyFrame:SetFont(font, 12, nil)
 currencyFrame:SetShadowOffset(1, -1)
 currencyFrame:SetTextColor(1, 1, 1)
 --currencyFrame:SetPoint('CENTER')
