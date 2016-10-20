@@ -5,4 +5,4 @@
 ## Notes: Create Widget - Money and Emblems
 ## SavedVariables: KBJCurrencyDB
 
-KBJCurrency.lua
+KBJcurrency.lua
