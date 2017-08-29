@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: KBJ Currency
 ## Version: 1.0
 ## Author: Kimbanjang
