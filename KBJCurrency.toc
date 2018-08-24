@@ -1,6 +1,6 @@
 ## Interface: 80000
 ## Title: KBJ Currency
-## Version: 8.0.1.5
+## Version: 8.0.1.6
 ## Author: Kimbanjang
 ## Notes: Lightweight Widget for Money and Emblems. and tooltip for some infomation
 ## SavedVariables: KBJCurrencyDB

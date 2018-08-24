@@ -127,7 +127,7 @@ function KBJcurrencyTooltip(self)
 
     -- Total Gold
     GameTooltip:AddLine(" ")
-    GameTooltip:AddLine("Gold in "..GetRealmName(), .9, .7, .2)
+    GameTooltip:AddLine("Gold in "..GetRealmName(), 0.9, 0.7, 0.2)
 
     local currencyDB = KBJcurrencyDB[playerRealm.."-"..playerFaction]
     for i = 1, #currencyDB do
@@ -139,12 +139,12 @@ function KBJcurrencyTooltip(self)
     end
 
     GameTooltip:AddLine(" ")
-    GameTooltip:AddDoubleLine("Total", GetCoinTextureString(totalGold, 0).."  ", .9, .7, .2, 1, 1, 1)
+    GameTooltip:AddDoubleLine("Total", GetCoinTextureString(totalGold, 0).."  ", 0.9, 0.7, 0.2, 1, 1, 1)
 
     -- Token
     local tokenPrice = C_WowTokenPublic.GetCurrentMarketPrice()
     if tokenPrice then
-        GameTooltip:AddLine("Token Price : "..GetMoneyString(tokenPrice), .9, .7, .2)
+        GameTooltip:AddLine("Token Price : "..GetMoneyString(tokenPrice), 0.9, 0.7, 0.2)
     end
 
     GameTooltip:Show()
