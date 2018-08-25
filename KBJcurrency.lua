@@ -88,15 +88,6 @@ function KBJcurrencyTooltip(self)
     GameTooltip:AddLine("KBJ Currency", 0.9, 0.7, 0.2)
     GameTooltip:AddLine(" ")
 
-    -- Reputation
-    local repName, repStanding, _, repMax, repCur = GetWatchedFactionInfo()
-    if repName then
-        GameTooltip:AddLine("Reputation : "..repName, 0.9, 0.7, 0.2)
-        GameTooltip:AddLine("  ".._G["FACTION_STANDING_LABEL"..repStanding], 1, 0.9, 0.4)
-        GameTooltip:AddLine("  "..math.floor(repCur/repMax*100+0.5).."% ("..repCur.." / "..repMax..")", 1, 1, 1)
-        GameTooltip:AddLine("  Needed : "..repMax-repCur, 0.6, 0.6, 0.6)
-    end
-
     -- AzeriteItem for BfA
     local azeriteItem = C_AzeriteItem.FindActiveAzeriteItem()
     if azeriteItem then
@@ -123,6 +114,15 @@ function KBJcurrencyTooltip(self)
         GameTooltip:AddLine("Island Expeditions", 0.9, 0.7, 0.2)
         GameTooltip:AddLine("  "..math.floor(ieCur/ieMax*100+0.5).."% ("..ieCur.." / "..ieMax..")", 1, 1, 1)
         GameTooltip:AddLine("  Needed : "..ieMax-ieCur, 0.6, 0.6, 0.6)
+    end
+
+    -- Reputation
+    local repName, repStanding, _, repMax, repCur = GetWatchedFactionInfo()
+    if repName then
+        GameTooltip:AddLine("Reputation : "..repName, 0.9, 0.7, 0.2)
+        GameTooltip:AddLine("  ".._G["FACTION_STANDING_LABEL"..repStanding], 1, 0.9, 0.4)
+        GameTooltip:AddLine("  "..math.floor(repCur/repMax*100+0.5).."% ("..repCur.." / "..repMax..")", 1, 1, 1)
+        GameTooltip:AddLine("  Needed : "..repMax-repCur, 0.6, 0.6, 0.6)
     end
 
     -- Total Gold
