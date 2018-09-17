@@ -105,17 +105,6 @@ function KBJcurrencyTooltip(self)
     GameTooltip:AddLine("  "..math.floor(honorCur/honorMax*100+0.5).."% ("..honorCur.." / "..honorMax..")", 1, 1, 1)
     GameTooltip:AddLine("  Needed : "..honorMax-honorCur, 0.6, 0.6, 0.6)
 
-    -- Island Expeditions for BfA
-    local ie_wqID = C_IslandsQueue.GetIslandsWeeklyQuestID()
-    if ie_wqID and IsQuestFlaggedCompleted(ie_wqID) then
-        GameTooltip:AddLine("Island Expeditions : Done", 0.9, 0.7, 0.2)
-    elseif ie_wqID then
-        local _, _, _, ieCur, ieMax = GetQuestObjectiveInfo(ie_wqID, 1, false)
-        GameTooltip:AddLine("Island Expeditions", 0.9, 0.7, 0.2)
-        GameTooltip:AddLine("  "..math.floor(ieCur/ieMax*100+0.5).."% ("..ieCur.." / "..ieMax..")", 1, 1, 1)
-        GameTooltip:AddLine("  Needed : "..ieMax-ieCur, 0.6, 0.6, 0.6)
-    end
-
     -- Reputation
     local repName, repStanding, _, repMax, repCur = GetWatchedFactionInfo()
     if repName then
