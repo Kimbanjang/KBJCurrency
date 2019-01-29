@@ -105,13 +105,22 @@ function KBJcurrencyTooltip(self)
     GameTooltip:AddLine("  "..math.floor(honorCur/honorMax*100+0.5).."% ("..honorCur.." / "..honorMax..")", 1, 1, 1)
     GameTooltip:AddLine("  Needed : "..honorMax-honorCur, 0.6, 0.6, 0.6)
 
+    -- Space
+    GameTooltip:AddLine(" ")
+
     -- Reputation
-    local repName, repStanding, _, repMax, repCur = GetWatchedFactionInfo()
+    local repName, repStanding, repMin, repMax, repCur = GetWatchedFactionInfo()
+    local displayCur = repCur-repMin
+    local displayMax = repMax-repMin
     if repName then
         GameTooltip:AddLine("Reputation : "..repName, 0.9, 0.7, 0.2)
         GameTooltip:AddLine("  ".._G["FACTION_STANDING_LABEL"..repStanding], 1, 0.9, 0.4)
-        GameTooltip:AddLine("  "..math.floor(repCur/repMax*100+0.5).."% ("..repCur.." / "..repMax..")", 1, 1, 1)
-        GameTooltip:AddLine("  Needed : "..repMax-repCur, 0.6, 0.6, 0.6)
+        if repMax == repCur then
+            GameTooltip:AddLine("  100% (Grats!)", 1, 1, 1)
+        else
+            GameTooltip:AddLine("  "..math.floor(displayCur/displayMax*100+0.5).."% ("..displayCur.." / "..displayMax..")", 1, 1, 1)
+            GameTooltip:AddLine("  Needed : "..repMax-repCur, 0.6, 0.6, 0.6)
+        end
     end
 
     -- Total Gold
@@ -142,9 +151,9 @@ end
 -- Core -------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------
 local mainFrame = CreateFrame('frame', 'KBJcurrency', UIParent)
-mainFrame:RegisterEvent('PLAYER_ENTERING_WORLD')
 -- Emblems Event
 mainFrame:RegisterEvent('CURRENCY_DISPLAY_UPDATE')
+mainFrame:RegisterEvent('TRADE_CURRENCY_CHANGED')
 -- Money Event
 mainFrame:RegisterEvent('PLAYER_MONEY')
 mainFrame:RegisterEvent('SEND_MAIL_MONEY_CHANGED')
@@ -152,6 +161,7 @@ mainFrame:RegisterEvent('SEND_MAIL_COD_CHANGED')
 mainFrame:RegisterEvent('PLAYER_TRADE_MONEY')
 mainFrame:RegisterEvent('TRADE_MONEY_CHANGED')
 -- General
+mainFrame:RegisterEvent('PLAYER_ENTERING_WORLD')
 mainFrame:RegisterEvent('MERCHANT_CLOSED')
 
 mainFrame:SetWidth(50)
@@ -173,7 +183,14 @@ function KBJcurrencyOnEvent(self, event, ...)
         currencyFrame:SetText(money.."  "..emblems)
         mainFrame:SetWidth(currencyFrame:GetStringWidth())
         KBJcurrencySave()
-    elseif event == 'CURRENCY_DISPLAY_UPDATE' then
+    elseif event == 'MERCHANT_CLOSED' then
+        emblems = KBJcurrencyEmblems()
+        money = KBJcurrencyMoney()
+        currencyFrame:SetText(money.."  "..emblems)
+        mainFrame:SetWidth(currencyFrame:GetStringWidth())
+        KBJcurrencySave()
+    elseif event == 'CURRENCY_DISPLAY_UPDATE'
+    or event == 'TRADE_CURRENCY_CHANGED' then
         emblems = KBJcurrencyEmblems()
         currencyFrame:SetText(money.."  "..emblems)
         mainFrame:SetWidth(currencyFrame:GetStringWidth())
